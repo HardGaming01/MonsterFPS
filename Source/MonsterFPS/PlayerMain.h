@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
 #include "PlayerMain.generated.h"
 
@@ -42,4 +43,7 @@ private:
 
 	UFUNCTION()
 	void StopJump();
+
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* FPSCameraComponent;
 };
