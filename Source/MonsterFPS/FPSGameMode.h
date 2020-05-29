@@ -15,4 +15,8 @@ class MONSTERFPS_API AFPSGameMode : public AGameModeBase
 	GENERATED_BODY()
 
   virtual void StartPlay() override;
+
+private:
+  UPROPERTY(EditAnywhere)
+  float timer;
 };
