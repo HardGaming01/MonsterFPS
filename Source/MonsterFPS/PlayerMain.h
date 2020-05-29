@@ -37,4 +37,9 @@ private:
 	UFUNCTION()
 	void MoveHorizontal(float x);
 
+	UFUNCTION()
+	void StartJump();
+
+	UFUNCTION()
+	void StopJump();
 };

@@ -39,6 +39,10 @@ void APlayerMain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
   // Set up "look" bindings.
   PlayerInputComponent->BindAxis("Yaw", this, &APlayerMain::AddControllerYawInput);
   PlayerInputComponent->BindAxis("Pitch", this, &APlayerMain::AddControllerPitchInput);
+
+  // Set up "action" bindings.
+  PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &APlayerMain::StartJump);
+  PlayerInputComponent->BindAction("Jump", IE_Released, this, &APlayerMain::StopJump);
 }
 
 void APlayerMain::Move(float vert, float hori)
@@ -58,5 +62,15 @@ void APlayerMain::MoveVertical(float y)
 void APlayerMain::MoveHorizontal(float x)
 {
   Move(0, x);
+}
+
+void APlayerMain::StartJump()
+{
+  bPressedJump = true;
+}
+
+void APlayerMain::StopJump()
+{
+  bPressedJump = false;
 }
 
