@@ -35,6 +35,10 @@ void APlayerMain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
   PlayerInputComponent->BindAxis("Forward", this, &APlayerMain::MoveVertical);
   PlayerInputComponent->BindAxis("Right", this, &APlayerMain::MoveHorizontal);
+
+  // Set up "look" bindings.
+  PlayerInputComponent->BindAxis("Yaw", this, &APlayerMain::AddControllerYawInput);
+  PlayerInputComponent->BindAxis("Pitch", this, &APlayerMain::AddControllerPitchInput);
 }
 
 void APlayerMain::Move(float vert, float hori)
