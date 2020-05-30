@@ -19,6 +19,22 @@ APlayerMain::APlayerMain()
   FPSCameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f + BaseEyeHeight));
   // Allow the pawn to control camera rotation.
   FPSCameraComponent->bUsePawnControlRotation = true;
+
+
+  // Create The arm mesh
+  // Create a first person mesh component for the owning player.
+  FPSMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
+  // Only the owning player sees this mesh.
+  FPSMesh->SetOnlyOwnerSee(true);
+  // Attach the FPS mesh to the FPS camera.
+  FPSMesh->SetupAttachment(FPSCameraComponent);
+  // Disable some environmental shadowing to preserve the illusion of having a single mesh.
+  FPSMesh->bCastDynamicShadow = false;
+  FPSMesh->CastShadow = false;
+
+  //Create The Dick
+  Dick = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Elephant"));
+  Dick->SetupAttachment(GetCapsuleComponent());
 }
 
 // Called when the game starts or when spawned

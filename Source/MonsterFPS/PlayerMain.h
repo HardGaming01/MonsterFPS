@@ -46,4 +46,10 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* FPSCameraComponent;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	USkeletalMeshComponent* FPSMesh;
+
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* Dick;
 };
