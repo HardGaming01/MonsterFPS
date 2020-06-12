@@ -39,6 +39,7 @@ APlayerMain::APlayerMain()
   //Create The Dick
   Dick = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Elephant"));
   Dick->SetupAttachment(GetCapsuleComponent());
+  Dick->SetOnlyOwnerSee(true);
 }
 
 // Called when the game starts or when spawned
