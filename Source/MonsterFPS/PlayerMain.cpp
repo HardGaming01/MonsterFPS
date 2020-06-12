@@ -3,6 +3,7 @@
 
 #include "PlayerMain.h"
 #include "Components/CapsuleComponent.h"
+#include "Bullet.h"
 
 // Sets default values
 APlayerMain::APlayerMain()
@@ -31,6 +32,9 @@ APlayerMain::APlayerMain()
   // Disable some environmental shadowing to preserve the illusion of having a single mesh.
   FPSMesh->bCastDynamicShadow = false;
   FPSMesh->CastShadow = false;
+
+  // The owning player doesn't see the regular (third-person) body mesh.
+  GetMesh()->SetOwnerNoSee(true);
 
   //Create The Dick
   Dick = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Elephant"));
@@ -70,6 +74,7 @@ void APlayerMain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
   // Set up "action" bindings.
   PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &APlayerMain::StartJump);
   PlayerInputComponent->BindAction("Jump", IE_Released, this, &APlayerMain::StopJump);
+  PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APlayerMain::Fire);
 }
 
 void APlayerMain::Move(float vert, float hori)
@@ -101,3 +106,35 @@ void APlayerMain::StopJump()
   bPressedJump = false;
 }
 
+void APlayerMain::Fire()
+{
+  // Attempt to fire a projectile.
+  if (BulletClass)
+  {
+    // Get the camera transform.
+    FVector CameraLocation;
+    FRotator CameraRotation;
+    GetActorEyesViewPoint(CameraLocation, CameraRotation);
+
+    // Transform MuzzleOffset from camera space to world space.
+    FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
+    FRotator MuzzleRotation = CameraRotation;
+    // Skew the aim to be slightly upwards.
+    MuzzleRotation.Pitch += 10.0f;
+    UWorld* World = GetWorld();
+    if (World)
+    {
+      FActorSpawnParameters SpawnParams;
+      SpawnParams.Owner = this;
+      SpawnParams.Instigator = GetInstigator();
+      // Spawn the projectile at the muzzle.
+      ABullet* Projectile = World->SpawnActor<ABullet>(BulletClass, MuzzleLocation, MuzzleRotation, SpawnParams);
+      if (Projectile)
+      {
+        // Set the projectile's initial trajectory.
+        FVector LaunchDirection = MuzzleRotation.Vector();
+        Projectile->FireInDirection(LaunchDirection);
+      }
+    }
+  }
+}

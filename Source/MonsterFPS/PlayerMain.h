@@ -27,8 +27,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-
-private:
 	UFUNCTION()
   void Move(float x, float y);
 
@@ -52,4 +50,16 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* Dick;
+
+	// Function that handles firing projectiles.
+	UFUNCTION()
+  void Fire();
+
+	// Gun muzzle's offset from the camera location.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+  FVector MuzzleOffset;
+
+	// Projectile class to spawn.
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	TSubclassOf<class ABullet> BulletClass;
 };
