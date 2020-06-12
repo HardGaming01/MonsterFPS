@@ -11,6 +11,8 @@ AProjectile::AProjectile()
 
   // Use a sphere as a simple collision representation.
   CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+
+  CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
   // Set the sphere's collision radius.
   CollisionComponent->InitSphereRadius(15.0f);
   // Set the root component to be the collision component.
@@ -24,6 +26,9 @@ AProjectile::AProjectile()
   ProjectileMovementComponent->bRotationFollowsVelocity = true;
   ProjectileMovementComponent->bShouldBounce = true;
   ProjectileMovementComponent->Bounciness = 0.3f;
+  InitialLifeSpan = 3.0f;
+  CollisionComponent->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+
 }
 
 // Called when the game starts or when spawned
@@ -43,4 +48,13 @@ void AProjectile::Tick(float DeltaTime)
 void AProjectile::FireInDirection(const FVector& ShootDirection)
 {
   ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed;
+}
+
+void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,
+  FVector NormalImpulse, const FHitResult& Hit)
+{
+  if (OtherActor != this && OtherComponent->IsSimulatingPhysics())
+  {
+    OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 50.0f, Hit.ImpactPoint);
+  }
 }
