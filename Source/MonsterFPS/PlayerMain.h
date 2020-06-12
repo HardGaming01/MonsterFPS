@@ -44,12 +44,12 @@ private:
 	UFUNCTION()
 	void StopJump();
 
+	UFUNCTION()
+	void Fire();
+
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* FPSCameraComponent;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	USkeletalMeshComponent* FPSMesh;
-
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* Dick;
 };

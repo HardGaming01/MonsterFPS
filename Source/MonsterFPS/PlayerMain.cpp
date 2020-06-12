@@ -3,6 +3,7 @@
 
 #include "PlayerMain.h"
 #include "Components/CapsuleComponent.h"
+#include "Projectile.h"
 
 // Sets default values
 APlayerMain::APlayerMain()
@@ -20,7 +21,6 @@ APlayerMain::APlayerMain()
   // Allow the pawn to control camera rotation.
   FPSCameraComponent->bUsePawnControlRotation = true;
 
-
   // Create The arm mesh
   // Create a first person mesh component for the owning player.
   FPSMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
@@ -32,9 +32,8 @@ APlayerMain::APlayerMain()
   FPSMesh->bCastDynamicShadow = false;
   FPSMesh->CastShadow = false;
 
-  //Create The Dick
-  Dick = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Elephant"));
-  Dick->SetupAttachment(GetCapsuleComponent());
+  // The owning player doesn't see the regular (third-person) body mesh.
+  GetMesh()->SetOwnerNoSee(true);
 }
 
 // Called when the game starts or when spawned
@@ -45,6 +44,8 @@ void APlayerMain::BeginPlay()
   if (GEngine)
   {
     GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Character Spawned"));
+    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Try to add some debug text"));
+
   }
 }
 
@@ -70,6 +71,8 @@ void APlayerMain::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
   // Set up "action" bindings.
   PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &APlayerMain::StartJump);
   PlayerInputComponent->BindAction("Jump", IE_Released, this, &APlayerMain::StopJump);
+
+  PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APlayerMain::Fire);
 }
 
 void APlayerMain::Move(float vert, float hori)
@@ -101,3 +104,6 @@ void APlayerMain::StopJump()
   bPressedJump = false;
 }
 
+void APlayerMain::Fire()
+{
+}
