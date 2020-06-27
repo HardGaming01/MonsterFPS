@@ -11,6 +11,11 @@
 			"AdditionalDependencies": [
 				"Engine"
 			]
+		},
+		{
+			"Name": "Graphics",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
 		}
 	]
 }
