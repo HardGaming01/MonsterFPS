@@ -30,6 +30,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector MuzzleOffset;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Gameplay)
+	float something = 5.f;
+
 private:
 	UFUNCTION()
   void Move(float x, float y);

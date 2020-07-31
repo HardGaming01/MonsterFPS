@@ -13,7 +13,8 @@ public class MonsterFPS : ModuleRules
 			"CoreUObject", 
 			"Engine", 
 			"InputCore",
-			"Graphics" 
+			"Graphics",
+			"BladeMode"
 			});
 
     PrivateDependencyModuleNames.AddRange(new string[] {  });
