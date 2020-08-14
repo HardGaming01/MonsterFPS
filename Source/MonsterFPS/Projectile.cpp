@@ -26,6 +26,7 @@ AProjectile::AProjectile()
   ProjectileMovementComponent->bRotationFollowsVelocity = true;
   ProjectileMovementComponent->bShouldBounce = true;
   ProjectileMovementComponent->Bounciness = 0.3f;
+  ProjectileMovementComponent->ProjectileGravityScale = 0;
   InitialLifeSpan = 3.0f;
   CollisionComponent->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 
